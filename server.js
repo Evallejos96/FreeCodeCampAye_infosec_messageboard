@@ -3,6 +3,7 @@ require('dotenv').config();
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
+const helmet      = require('helmet');
 
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -14,16 +15,11 @@ app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 
+// 🔐 FCC requirement: only allow site to load in iframe on same origin
+app.use(helmet.frameguard({ action: 'sameorigin' }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// 🔐 SECURITY HEADERS EXIGIDOS POR FCC
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "frame-ancestors 'self'");
-  res.setHeader("X-DNS-Prefetch-Control", "off");
-  res.setHeader("Referrer-Policy", "same-origin");
-  next();
-});
 
 //Sample front-end
 app.route('/b/:board/')
