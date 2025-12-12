@@ -17,6 +17,8 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 
 // 🔐 FCC requirement: only allow site to load in iframe on same origin
 app.use(helmet.frameguard({ action: 'sameorigin' }));
+app.use(helmet.dnsPrefetchControl({ allow: false }));
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
