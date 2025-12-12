@@ -2,7 +2,7 @@
 
 const { MongoClient, ObjectId } = require('mongodb');
 
-const CONNECTION_STRING = process.env.DB;
+const CONNECTION_STRING = process.env.MONGO_URI;
 
 module.exports = function (app) {
 
